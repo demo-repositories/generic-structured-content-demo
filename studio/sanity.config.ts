@@ -18,7 +18,7 @@ import {
 import {assist} from '@sanity/assist'
 
 // Environment variables for project configuration
-const projectId = process.env.SANITY_STUDIO_PROJECT_ID || 'your-projectID'
+const projectId = process.env.SANITY_STUDIO_PROJECT_ID || '0p3naccz'
 const dataset = process.env.SANITY_STUDIO_DATASET || 'production'
 
 // URL for preview functionality, defaults to localhost:3000 if not set
@@ -34,8 +34,8 @@ const homeLocation = {
 // path for different document types and used in the presentation tool.
 function resolveHref(documentType?: string, slug?: string): string | undefined {
   switch (documentType) {
-    case 'post':
-      return slug ? `/posts/${slug}` : undefined
+    case 'article':
+      return slug ? `/articles/${slug}` : undefined
     case 'page':
       return slug ? `/${slug}` : undefined
     default:
@@ -47,7 +47,7 @@ function resolveHref(documentType?: string, slug?: string): string | undefined {
 // Main Sanity configuration
 export default defineConfig({
   name: 'default',
-  title: 'Sanity + Next.js Starter Template',
+  title: 'Sanity Sales Demo',
 
   projectId,
   dataset,
@@ -73,8 +73,8 @@ export default defineConfig({
             filter: `_type == "page" && slug.current == $slug || _id == $slug`,
           },
           {
-            route: '/posts/:slug',
-            filter: `_type == "post" && slug.current == $slug || _id == $slug`,
+            route: '/articles/:slug',
+            filter: `_type == "article" && slug.current == $slug || _id == $slug`,
           },
         ]),
         // Locations Resolver API allows you to define where data is being used in your application. https://www.sanity.io/docs/visual-editing/presentation-resolver-api#8d8bca7bfcd7
@@ -98,7 +98,7 @@ export default defineConfig({
               ],
             }),
           }),
-          post: defineLocations({
+          article: defineLocations({
             select: {
               title: 'title',
               slug: 'slug.current',
@@ -107,7 +107,7 @@ export default defineConfig({
               locations: [
                 {
                   title: doc?.title || 'Untitled',
-                  href: resolveHref('post', doc?.slug)!,
+                  href: resolveHref('article', doc?.slug)!,
                 },
                 {
                   title: 'Home',

@@ -1,7 +1,5 @@
 import {CogIcon} from '@sanity/icons'
 import {defineArrayMember, defineField, defineType} from 'sanity'
-import type {Link, Settings} from '../../../sanity.types'
-
 import * as demo from '../../lib/initialValues'
 
 /**
@@ -53,7 +51,7 @@ export const settings = defineType({
                       list: [
                         {title: 'URL', value: 'href'},
                         {title: 'Page', value: 'page'},
-                        {title: 'Post', value: 'post'},
+                        {title: 'Article', value: 'article'},
                       ],
                       layout: 'radio',
                     },
@@ -65,7 +63,7 @@ export const settings = defineType({
                     hidden: ({parent}) => parent?.linkType !== 'href' && parent?.linkType != null,
                     validation: (Rule) =>
                       Rule.custom((value, context) => {
-                        const parent = context.parent as Link
+                        const parent = context.parent as {linkType?: string}
                         if (parent?.linkType === 'href' && !value) {
                           return 'URL is required when Link Type is URL'
                         }
@@ -80,7 +78,7 @@ export const settings = defineType({
                     hidden: ({parent}) => parent?.linkType !== 'page',
                     validation: (Rule) =>
                       Rule.custom((value, context) => {
-                        const parent = context.parent as Link
+                        const parent = context.parent as {linkType?: string}
                         if (parent?.linkType === 'page' && !value) {
                           return 'Page reference is required when Link Type is Page'
                         }
@@ -88,16 +86,16 @@ export const settings = defineType({
                       }),
                   }),
                   defineField({
-                    name: 'post',
-                    title: 'Post',
+                    name: 'article',
+                    title: 'Article',
                     type: 'reference',
-                    to: [{type: 'post'}],
-                    hidden: ({parent}) => parent?.linkType !== 'post',
+                    to: [{type: 'article'}],
+                    hidden: ({parent}) => parent?.linkType !== 'article',
                     validation: (Rule) =>
                       Rule.custom((value, context) => {
-                        const parent = context.parent as Link
-                        if (parent?.linkType === 'post' && !value) {
-                          return 'Post reference is required when Link Type is Post'
+                        const parent = context.parent as {linkType?: string}
+                        if (parent?.linkType === 'article' && !value) {
+                          return 'Article reference is required when Link Type is Article'
                         }
                         return true
                       }),
@@ -134,7 +132,7 @@ export const settings = defineType({
           type: 'string',
           validation: (rule) => {
             return rule.custom((alt, context) => {
-              const document = context.document as Settings
+              const document = context.document as {ogImage?: {asset?: {_ref?: string}}}
               if (document?.ogImage?.asset?._ref && !alt) {
                 return 'Required'
               }

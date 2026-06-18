@@ -1,15 +1,9 @@
 import {UserIcon} from '@sanity/icons'
 import {defineField, defineType} from 'sanity'
-import type {Person} from '../../../sanity.types'
 
-/**
- * Person schema.  Define and edit the fields for the 'person' content type.
- * Learn more: https://www.sanity.io/docs/studio/schema-types
- */
-
-export const person = defineType({
-  name: 'person',
-  title: 'Person',
+export const author = defineType({
+  name: 'author',
+  title: 'Author',
   icon: UserIcon,
   type: 'document',
   fields: [
@@ -26,6 +20,12 @@ export const person = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'bio',
+      title: 'Bio',
+      type: 'blockContentTextOnly',
+      description: 'A short biography shown alongside articles.',
+    }),
+    defineField({
       name: 'picture',
       title: 'Picture',
       type: 'image',
@@ -35,16 +35,6 @@ export const person = defineType({
           type: 'string',
           title: 'Alternative text',
           description: 'Important for SEO and accessibility.',
-          validation: (rule) => {
-            // Custom validation to ensure alt text is provided if the image is present. https://www.sanity.io/docs/validation
-            return rule.custom((alt, context) => {
-              const document = context.document as Person
-              if (document?.picture?.asset?._ref && !alt) {
-                return 'Required'
-              }
-              return true
-            })
-          },
         }),
       ],
       options: {
@@ -53,10 +43,8 @@ export const person = defineType({
           imageDescriptionField: 'alt',
         },
       },
-      validation: (rule) => rule.required(),
     }),
   ],
-  // List preview configuration. https://www.sanity.io/docs/previews-list-views
   preview: {
     select: {
       firstName: 'firstName',
@@ -66,7 +54,7 @@ export const person = defineType({
     prepare(selection) {
       return {
         title: `${selection.firstName} ${selection.lastName}`,
-        subtitle: 'Person',
+        subtitle: 'Author',
         media: selection.picture,
       }
     },
