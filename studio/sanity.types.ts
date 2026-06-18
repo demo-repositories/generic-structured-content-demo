@@ -22,19 +22,26 @@ export type PageReference = {
   [internalGroqTypeReferenceTo]?: 'page'
 }
 
-export type PostReference = {
+export type ArticleReference = {
   _ref: string
   _type: 'reference'
   _weak?: boolean
-  [internalGroqTypeReferenceTo]?: 'post'
+  [internalGroqTypeReferenceTo]?: 'article'
+}
+
+export type AuthorReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'author'
 }
 
 export type Link = {
   _type: 'link'
-  linkType?: 'href' | 'page' | 'post'
+  linkType?: 'href' | 'page' | 'article'
   href?: string
   page?: PageReference
-  post?: PostReference
+  article?: ArticleReference
   openInNewTab?: boolean
 }
 
@@ -69,6 +76,13 @@ export type InfoSection = {
   content?: BlockContent
 }
 
+export type ArticleCardsSection = {
+  _type: 'articleCardsSection'
+  heading?: string
+  subheading?: string
+  articles?: Array<ArticleReference & {_key: string}>
+}
+
 export type BlockContentTextOnly = Array<{
   children?: Array<{
     marks?: Array<string>
@@ -99,10 +113,10 @@ export type BlockContent = Array<
       style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
       listItem?: 'bullet' | 'number'
       markDefs?: Array<{
-        linkType?: 'href' | 'page' | 'post'
+        linkType?: 'href' | 'page' | 'article'
         href?: string
         page?: PageReference
-        post?: PostReference
+        article?: ArticleReference
         openInNewTab?: boolean
         _type: 'link'
         _key: string
@@ -144,10 +158,10 @@ export type Settings = {
     style?: 'normal'
     listItem?: never
     markDefs?: Array<{
-      linkType?: 'href' | 'page' | 'post'
+      linkType?: 'href' | 'page' | 'article'
       href?: string
       page?: PageReference
-      post?: PostReference
+      article?: ArticleReference
       openInNewTab?: boolean
       _type: 'link'
       _key: string
@@ -183,6 +197,21 @@ export type SanityImageHotspot = {
   width: number
 }
 
+export type HomPage = {
+  _id: string
+  _type: 'homePage'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  heading: string
+  subheading?: string
+  pageBuilder?: Array<
+    | ({_key: string} & CallToAction)
+    | ({_key: string} & InfoSection)
+    | ({_key: string} & ArticleCardsSection)
+  >
+}
+
 export type Page = {
   _id: string
   _type: 'page'
@@ -194,25 +223,15 @@ export type Page = {
   heading: string
   subheading?: string
   pageBuilder?: Array<
-    | ({
-        _key: string
-      } & CallToAction)
-    | ({
-        _key: string
-      } & InfoSection)
+    | ({_key: string} & CallToAction)
+    | ({_key: string} & InfoSection)
+    | ({_key: string} & ArticleCardsSection)
   >
 }
 
-export type PersonReference = {
-  _ref: string
-  _type: 'reference'
-  _weak?: boolean
-  [internalGroqTypeReferenceTo]?: 'person'
-}
-
-export type Post = {
+export type Article = {
   _id: string
-  _type: 'post'
+  _type: 'article'
   _createdAt: string
   _updatedAt: string
   _rev: string
@@ -229,18 +248,19 @@ export type Post = {
     _type: 'image'
   }
   date?: string
-  author?: PersonReference
+  author?: AuthorReference
 }
 
-export type Person = {
+export type Author = {
   _id: string
-  _type: 'person'
+  _type: 'author'
   _createdAt: string
   _updatedAt: string
   _rev: string
   firstName: string
   lastName: string
-  picture: {
+  bio?: BlockContentTextOnly
+  picture?: {
     asset?: SanityImageAssetReference
     media?: unknown
     hotspot?: SanityImageHotspot
@@ -492,21 +512,23 @@ export type Geopoint = {
 
 export type AllSanitySchemaTypes =
   | PageReference
-  | PostReference
+  | ArticleReference
+  | AuthorReference
   | Link
   | SanityImageAssetReference
   | CallToAction
   | InfoSection
+  | ArticleCardsSection
   | BlockContentTextOnly
   | BlockContent
   | Button
   | Settings
   | SanityImageCrop
   | SanityImageHotspot
+  | HomPage
   | Page
-  | PersonReference
-  | Post
-  | Person
+  | Article
+  | Author
   | Slug
   | SanityAssistInstructionTask
   | SanityAssistTaskStatus

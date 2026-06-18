@@ -1,18 +1,5 @@
 import {defineArrayMember, defineType, defineField} from 'sanity'
-import type {Link} from '../../../sanity.types'
 
-/**
- * This is the schema definition for the rich text fields used for
- * for this blog studio. When you import it in schemas.js it can be
- * reused in other parts of the studio with:
- *  {
- *    name: 'someName',
- *    title: 'Some title',
- *    type: 'blockContent'
- *  }
- *
- * Learn more: https://www.sanity.io/docs/block-content
- */
 export const blockContent = defineType({
   title: 'Block Content',
   name: 'blockContent',
@@ -36,7 +23,7 @@ export const blockContent = defineType({
                   list: [
                     {title: 'URL', value: 'href'},
                     {title: 'Page', value: 'page'},
-                    {title: 'Post', value: 'post'},
+                    {title: 'Article', value: 'article'},
                   ],
                   layout: 'radio',
                 },
@@ -48,7 +35,7 @@ export const blockContent = defineType({
                 hidden: ({parent}) => parent?.linkType !== 'href' && parent?.linkType != null,
                 validation: (Rule) =>
                   Rule.custom((value, context) => {
-                    const parent = context.parent as Link
+                    const parent = context.parent as {linkType?: string}
                     if (parent?.linkType === 'href' && !value) {
                       return 'URL is required when Link Type is URL'
                     }
@@ -63,7 +50,7 @@ export const blockContent = defineType({
                 hidden: ({parent}) => parent?.linkType !== 'page',
                 validation: (Rule) =>
                   Rule.custom((value, context) => {
-                    const parent = context.parent as Link
+                    const parent = context.parent as {linkType?: string}
                     if (parent?.linkType === 'page' && !value) {
                       return 'Page reference is required when Link Type is Page'
                     }
@@ -71,16 +58,16 @@ export const blockContent = defineType({
                   }),
               }),
               defineField({
-                name: 'post',
-                title: 'Post',
+                name: 'article',
+                title: 'Article',
                 type: 'reference',
-                to: [{type: 'post'}],
-                hidden: ({parent}) => parent?.linkType !== 'post',
+                to: [{type: 'article'}],
+                hidden: ({parent}) => parent?.linkType !== 'article',
                 validation: (Rule) =>
                   Rule.custom((value, context) => {
-                    const parent = context.parent as Link
-                    if (parent?.linkType === 'post' && !value) {
-                      return 'Post reference is required when Link Type is Post'
+                    const parent = context.parent as {linkType?: string}
+                    if (parent?.linkType === 'article' && !value) {
+                      return 'Article reference is required when Link Type is Article'
                     }
                     return true
                   }),
