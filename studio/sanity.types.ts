@@ -29,13 +29,6 @@ export type ArticleReference = {
   [internalGroqTypeReferenceTo]?: 'article'
 }
 
-export type AuthorReference = {
-  _ref: string
-  _type: 'reference'
-  _weak?: boolean
-  [internalGroqTypeReferenceTo]?: 'author'
-}
-
 export type Link = {
   _type: 'link'
   linkType?: 'href' | 'page' | 'article'
@@ -69,18 +62,22 @@ export type CallToAction = {
   contentAlignment?: 'textFirst' | 'imageFirst'
 }
 
+export type ArticleCardsSection = {
+  _type: 'articleCardsSection'
+  heading?: string
+  subheading?: string
+  articles?: Array<
+    {
+      _key: string
+    } & ArticleReference
+  >
+}
+
 export type InfoSection = {
   _type: 'infoSection'
   heading?: string
   subheading?: string
   content?: BlockContent
-}
-
-export type ArticleCardsSection = {
-  _type: 'articleCardsSection'
-  heading?: string
-  subheading?: string
-  articles?: Array<ArticleReference & {_key: string}>
 }
 
 export type BlockContentTextOnly = Array<{
@@ -139,6 +136,27 @@ export type Button = {
   _type: 'button'
   buttonText?: string
   link?: Link
+}
+
+export type HomePage = {
+  _id: string
+  _type: 'homePage'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  heading: string
+  subheading?: string
+  pageBuilder?: Array<
+    | ({
+        _key: string
+      } & CallToAction)
+    | ({
+        _key: string
+      } & InfoSection)
+    | ({
+        _key: string
+      } & ArticleCardsSection)
+  >
 }
 
 export type Settings = {
@@ -245,10 +263,23 @@ export type Page = {
   heading: string
   subheading?: string
   pageBuilder?: Array<
-    | ({_key: string} & CallToAction)
-    | ({_key: string} & InfoSection)
-    | ({_key: string} & ArticleCardsSection)
+    | ({
+        _key: string
+      } & CallToAction)
+    | ({
+        _key: string
+      } & InfoSection)
+    | ({
+        _key: string
+      } & ArticleCardsSection)
   >
+}
+
+export type AuthorReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'author'
 }
 
 export type Article = {
@@ -535,20 +566,20 @@ export type Geopoint = {
 export type AllSanitySchemaTypes =
   | PageReference
   | ArticleReference
-  | AuthorReference
   | Link
   | SanityImageAssetReference
   | CallToAction
-  | InfoSection
   | ArticleCardsSection
+  | InfoSection
   | BlockContentTextOnly
   | BlockContent
   | Button
+  | HomePage
   | Settings
   | SanityImageCrop
   | SanityImageHotspot
-  | HomPage
   | Page
+  | AuthorReference
   | Article
   | Author
   | Slug

@@ -69,6 +69,17 @@ export type CallToAction = {
   contentAlignment?: 'textFirst' | 'imageFirst'
 }
 
+export type ArticleCardsSection = {
+  _type: 'articleCardsSection'
+  heading?: string
+  subheading?: string
+  articles?: Array<
+    {
+      _key: string
+    } & ArticleReference
+  >
+}
+
 export type InfoSection = {
   _type: 'infoSection'
   heading?: string
@@ -162,6 +173,27 @@ export type Button = {
   _type: 'button'
   buttonText?: string
   link?: Link
+}
+
+export type HomePage = {
+  _id: string
+  _type: 'homePage'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  heading: string
+  subheading?: string
+  pageBuilder?: Array<
+    | ({
+        _key: string
+      } & CallToAction)
+    | ({
+        _key: string
+      } & InfoSection)
+    | ({
+        _key: string
+      } & ArticleCardsSection)
+  >
 }
 
 export type Settings = {
@@ -507,6 +539,7 @@ export type AllSanitySchemaTypes =
   | Link
   | SanityImageAssetReference
   | CallToAction
+  | ArticleCardsSection
   | InfoSection
   | ArticleCardsSection
   | HeroCta
@@ -514,6 +547,7 @@ export type AllSanitySchemaTypes =
   | BlockContentTextOnly
   | BlockContent
   | Button
+  | HomePage
   | Settings
   | SanityImageCrop
   | SanityImageHotspot
@@ -690,6 +724,17 @@ export type GetPageQueryResult = {
   pageBuilder: Array<
     | {
         _key: string
+        _type: 'articleCardsSection'
+        heading?: string
+        subheading?: string
+        articles?: Array<
+          {
+            _key: string
+          } & ArticleReference
+        >
+      }
+    | {
+        _key: string
         _type: 'callToAction'
         eyebrow?: string
         heading: string
@@ -726,6 +771,7 @@ export type GetPageQueryResult = {
                 openInNewTab?: boolean
                 _type: 'link'
                 _key: string
+                post: null
               }> | null
               level?: number
               _type: 'block'
