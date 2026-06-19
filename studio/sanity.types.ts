@@ -197,14 +197,36 @@ export type SanityImageHotspot = {
   width: number
 }
 
+export type HeroCta = {
+  _type: 'heroCta'
+  _key: string
+  buttonText: string
+  link?: Link
+  style?: 'primary' | 'secondary'
+}
+
+export type HeroBanner = {
+  _type: 'heroBanner'
+  title: string
+  subtitle?: string
+  image?: {
+    asset?: SanityImageAssetReference
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  ctas?: Array<HeroCta>
+  textPosition?: 'left' | 'center' | 'right'
+}
+
 export type HomPage = {
   _id: string
   _type: 'homePage'
   _createdAt: string
   _updatedAt: string
   _rev: string
-  heading: string
-  subheading?: string
+  hero: HeroBanner
   pageBuilder?: Array<
     | ({_key: string} & CallToAction)
     | ({_key: string} & InfoSection)

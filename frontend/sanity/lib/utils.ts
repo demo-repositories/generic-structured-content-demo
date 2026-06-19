@@ -42,9 +42,10 @@ export function linkResolver(link: Link | DereferencedLink | undefined) {
       if (link?.page && typeof link.page === 'string') {
         return `/${link.page}`
       }
-    case 'post':
-      if (link?.post && typeof link.post === 'string') {
-        return `/posts/${link.post}`
+      return null
+    case 'article':
+      if (link?.article && typeof link.article === 'string') {
+        return `/articles/${link.article}`
       }
     default:
       return null

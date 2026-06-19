@@ -4,6 +4,8 @@ import {article} from './documents/article'
 import {callToAction} from './objects/callToAction'
 import {infoSection} from './objects/infoSection'
 import {articleCardsSection} from './objects/articleCardsSection'
+import {heroCta} from './objects/heroCta'
+import {heroBanner} from './objects/heroBanner'
 import {settings} from './singletons/settings'
 import {homePage} from './singletons/homePage'
 import {link} from './objects/link'
@@ -25,6 +27,8 @@ export const schemaTypes = [
   blockContentTextOnly,
   infoSection,
   articleCardsSection,
+  heroCta,
+  heroBanner,
   callToAction,
   link,
 ]

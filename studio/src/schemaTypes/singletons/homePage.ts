@@ -8,15 +8,10 @@ export const homePage = defineType({
   icon: HomeIcon,
   fields: [
     defineField({
-      name: 'heading',
-      title: 'Heading',
-      type: 'string',
+      name: 'hero',
+      title: 'Hero Banner',
+      type: 'heroBanner',
       validation: (rule) => rule.required(),
-    }),
-    defineField({
-      name: 'subheading',
-      title: 'Subheading',
-      type: 'string',
     }),
     defineField({
       name: 'pageBuilder',
@@ -26,8 +21,9 @@ export const homePage = defineType({
     }),
   ],
   preview: {
-    prepare() {
-      return {title: 'Home Page'}
+    select: {title: 'hero.title'},
+    prepare({title}) {
+      return {title: title || 'Home Page', subtitle: 'Singleton'}
     },
   },
 })
