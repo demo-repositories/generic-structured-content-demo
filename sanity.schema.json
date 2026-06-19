@@ -31,7 +31,7 @@
   },
   {
     "type": "type",
-    "name": "post.reference",
+    "name": "article.reference",
     "value": {
       "type": "object",
       "attributes": {
@@ -56,7 +56,7 @@
           "optional": true
         }
       },
-      "dereferencesTo": "post"
+      "dereferencesTo": "article"
     }
   },
   {
@@ -87,7 +87,7 @@
               },
               {
                 "type": "string",
-                "value": "post"
+                "value": "article"
               }
             ]
           },
@@ -108,11 +108,11 @@
           },
           "optional": true
         },
-        "post": {
+        "article": {
           "type": "objectAttribute",
           "value": {
             "type": "inline",
-            "name": "post.reference"
+            "name": "article.reference"
           },
           "optional": true
         },
@@ -277,6 +277,58 @@
                 "value": "imageFirst"
               }
             ]
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
+    "name": "articleCardsSection",
+    "type": "type",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "articleCardsSection"
+          }
+        },
+        "heading": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "subheading": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "articles": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "array",
+            "of": {
+              "type": "object",
+              "attributes": {
+                "_key": {
+                  "type": "objectAttribute",
+                  "value": {
+                    "type": "string"
+                  }
+                }
+              },
+              "rest": {
+                "type": "inline",
+                "name": "article.reference"
+              }
+            }
           },
           "optional": true
         }
@@ -638,7 +690,7 @@
                             },
                             {
                               "type": "string",
-                              "value": "post"
+                              "value": "article"
                             }
                           ]
                         },
@@ -659,11 +711,11 @@
                         },
                         "optional": true
                       },
-                      "post": {
+                      "article": {
                         "type": "objectAttribute",
                         "value": {
                           "type": "inline",
-                          "name": "post.reference"
+                          "name": "article.reference"
                         },
                         "optional": true
                       },
@@ -814,6 +866,114 @@
     }
   },
   {
+    "name": "homePage",
+    "type": "document",
+    "attributes": {
+      "_id": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_type": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string",
+          "value": "homePage"
+        }
+      },
+      "_createdAt": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_updatedAt": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_rev": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "heading": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": false
+      },
+      "subheading": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
+      "pageBuilder": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "array",
+          "of": {
+            "type": "union",
+            "of": [
+              {
+                "type": "object",
+                "attributes": {
+                  "_key": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "rest": {
+                  "type": "inline",
+                  "name": "callToAction"
+                }
+              },
+              {
+                "type": "object",
+                "attributes": {
+                  "_key": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "rest": {
+                  "type": "inline",
+                  "name": "infoSection"
+                }
+              },
+              {
+                "type": "object",
+                "attributes": {
+                  "_key": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "rest": {
+                  "type": "inline",
+                  "name": "articleCardsSection"
+                }
+              }
+            ]
+          }
+        },
+        "optional": true
+      }
+    }
+  },
+  {
     "name": "settings",
     "type": "document",
     "attributes": {
@@ -952,7 +1112,7 @@
                             },
                             {
                               "type": "string",
-                              "value": "post"
+                              "value": "article"
                             }
                           ]
                         },
@@ -973,11 +1133,11 @@
                         },
                         "optional": true
                       },
-                      "post": {
+                      "article": {
                         "type": "objectAttribute",
                         "value": {
                           "type": "inline",
-                          "name": "post.reference"
+                          "name": "article.reference"
                         },
                         "optional": true
                       },
@@ -1292,6 +1452,21 @@
                   "type": "inline",
                   "name": "infoSection"
                 }
+              },
+              {
+                "type": "object",
+                "attributes": {
+                  "_key": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "rest": {
+                  "type": "inline",
+                  "name": "articleCardsSection"
+                }
               }
             ]
           }
@@ -1302,7 +1477,7 @@
   },
   {
     "type": "type",
-    "name": "person.reference",
+    "name": "author.reference",
     "value": {
       "type": "object",
       "attributes": {
@@ -1327,11 +1502,11 @@
           "optional": true
         }
       },
-      "dereferencesTo": "person"
+      "dereferencesTo": "author"
     }
   },
   {
-    "name": "post",
+    "name": "article",
     "type": "document",
     "attributes": {
       "_id": {
@@ -1344,7 +1519,7 @@
         "type": "objectAttribute",
         "value": {
           "type": "string",
-          "value": "post"
+          "value": "article"
         }
       },
       "_createdAt": {
@@ -1460,14 +1635,14 @@
         "type": "objectAttribute",
         "value": {
           "type": "inline",
-          "name": "person.reference"
+          "name": "author.reference"
         },
         "optional": true
       }
     }
   },
   {
-    "name": "person",
+    "name": "author",
     "type": "document",
     "attributes": {
       "_id": {
@@ -1480,7 +1655,7 @@
         "type": "objectAttribute",
         "value": {
           "type": "string",
-          "value": "person"
+          "value": "author"
         }
       },
       "_createdAt": {
@@ -1514,6 +1689,14 @@
           "type": "string"
         },
         "optional": false
+      },
+      "bio": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "blockContentTextOnly"
+        },
+        "optional": true
       },
       "picture": {
         "type": "objectAttribute",
@@ -1567,7 +1750,7 @@
             }
           }
         },
-        "optional": false
+        "optional": true
       }
     }
   },
