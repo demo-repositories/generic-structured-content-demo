@@ -34,7 +34,7 @@ export const homePageQuery = defineQuery(`
     hero {
       title,
       subtitle,
-      textPosition,
+      layout,
       image,
       ctas[] {
         _key,
@@ -59,6 +59,13 @@ export const homePageQuery = defineQuery(`
             ...,
             ${linkReference}
           }
+        }
+      },
+      _type == "articleCardsSection" => {
+        heading,
+        subheading,
+        "articles": articles[]->{
+          ${postFields}
         }
       },
     },
@@ -89,6 +96,13 @@ export const getPageQuery = defineQuery(`
             ...,
             ${linkReference}
           }
+        }
+      },
+      _type == "articleCardsSection" => {
+        heading,
+        subheading,
+        "articles": articles[]->{
+          ${postFields}
         }
       },
     },

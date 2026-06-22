@@ -1,5 +1,6 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
 import {MasterDetailIcon} from '@sanity/icons'
+import {LayoutPickerInput} from '../components/HeroBannerInput'
 
 export const heroBanner = defineType({
   name: 'heroBanner',
@@ -7,6 +8,19 @@ export const heroBanner = defineType({
   type: 'object',
   icon: MasterDetailIcon,
   fields: [
+    defineField({
+      name: 'layout',
+      title: 'Layout',
+      type: 'string',
+      components: {input: LayoutPickerInput},
+      options: {
+        list: [
+          {title: 'Text on image', value: 'textOnImage'},
+          {title: 'Stacked hero', value: 'stacked'},
+          {title: 'Side by side', value: 'sideBySide'},
+        ],
+      },
+    }),
     defineField({
       name: 'title',
       title: 'Title',
@@ -41,20 +55,6 @@ export const heroBanner = defineType({
       type: 'array',
       of: [defineArrayMember({type: 'heroCta'})],
       validation: (rule) => rule.max(3),
-    }),
-    defineField({
-      name: 'textPosition',
-      title: 'Text Position',
-      type: 'string',
-      initialValue: 'left',
-      options: {
-        list: [
-          {title: 'Left', value: 'left'},
-          {title: 'Center', value: 'center'},
-          {title: 'Right', value: 'right'},
-        ],
-        layout: 'radio',
-      },
     }),
   ],
   preview: {

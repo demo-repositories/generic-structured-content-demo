@@ -4,12 +4,17 @@ import {SanityDocument} from 'next-sanity'
 import {useOptimistic} from 'next-sanity/hooks'
 
 import BlockRenderer from '@/app/components/BlockRenderer'
-import {GetPageQueryResult} from '@/sanity.types'
 import {dataAttr} from '@/sanity/lib/utils'
 import {PageBuilderSection} from '@/sanity/lib/types'
 
+type PageDocument = {
+  _id: string
+  _type: string
+  pageBuilder?: PageBuilderSection[] | null
+} | null
+
 type PageBuilderPageProps = {
-  page: GetPageQueryResult
+  page: PageDocument
 }
 
 type PageData = {
@@ -27,11 +32,8 @@ function RenderSections({
   page,
 }: {
   pageBuilderSections: PageBuilderSection[]
-  page: GetPageQueryResult
+  page: NonNullable<PageDocument>
 }) {
-  if (!page) {
-    return null
-  }
   return (
     <div
       data-sanity={dataAttr({
@@ -53,17 +55,13 @@ function RenderSections({
   )
 }
 
-function RenderEmptyState({page}: {page: GetPageQueryResult}) {
-  if (!page) {
-    return null
-  }
-
+function RenderEmptyState({page}: {page: NonNullable<PageDocument>}) {
   return (
     <div
       className="container mt-10"
       data-sanity={dataAttr({
         id: page._id,
-        type: 'page',
+        type: page._type,
         path: `pageBuilder`,
       }).toString()}
     >
@@ -79,7 +77,7 @@ export default function PageBuilder({page}: PageBuilderPageProps) {
   const pageBuilderSections = useOptimistic<
     PageBuilderSection[] | undefined,
     SanityDocument<PageData>
-  >(page?.pageBuilder || [], (currentSections, action) => {
+  >(page?.pageBuilder ?? [], (currentSections, action) => {
     // The action contains updated document data from Sanity
     // when someone makes an edit in the Studio
 
@@ -99,6 +97,8 @@ export default function PageBuilder({page}: PageBuilderPageProps) {
     // Otherwise keep the current sections
     return currentSections
   })
+
+  if (!page) return null
 
   return pageBuilderSections && pageBuilderSections.length > 0 ? (
     <RenderSections pageBuilderSections={pageBuilderSections} page={page} />

@@ -25,6 +25,7 @@ export const heroCta = defineType({
         list: [
           {title: 'Primary', value: 'primary'},
           {title: 'Secondary', value: 'secondary'},
+          {title: 'Contrast', value: 'contrast'},
         ],
         layout: 'radio',
       },

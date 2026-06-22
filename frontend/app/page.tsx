@@ -16,11 +16,7 @@ export default async function Page() {
       )}
 
       {homePage?.pageBuilder && homePage.pageBuilder.length > 0 && (
-        <PageBuilder
-          pageBuilder={homePage.pageBuilder}
-          id={homePage._id}
-          type={homePage._type}
-        />
+        <PageBuilder page={homePage} />
       )}
 
       <div className="border-t border-gray-100 bg-gray-50">
